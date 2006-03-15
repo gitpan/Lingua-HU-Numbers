@@ -12,7 +12,7 @@ our @ISA = qw(Exporter);
 our @EXPORT = ();
 our @EXPORT_OK = qw( num2hu );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 our %dig;
 
@@ -29,23 +29,28 @@ our @desc = ('',qw(ezer millió milliárd billió billiárd trillió trilliárd
 
 sub num2hu {
 	my $num = $_[0];
+	return $dig{'0'} if ($num =~ m/^[+-]0+$/s);
 	return undef unless defined $num && length $num;
-	croak("Currently the module only works with positive integers!") 
-		if ($num !~ m/^\d+$/s);
+	croak("Currently the module only works with integers!")
+		if ($num !~ m/^[+-]?\d+$/s);
 	
 	croak("The number is too large, the module can't handle it!")
 		if (length($num) > 67);
-	return _int2hu($num);
+	my $plusmin = '';
+	$num =~ s/^([+-])/$plusmin = $1;''/es;
+	$plusmin = ($plusmin eq '-') ? 'mínusz ':'';
+	return $plusmin._int2hu($num);
 }
 
 sub _int2hu {
 	my $num = $_[0];
 	my $recur = $_[1];
 	return $dig{$num} if ($dig{$num});
+	my ($hun,$end,$pre);
 	if ($num =~ m/^(\d)(\d)$/) {
 		return $dig{$1.'0'} . $dig{$2}
 	} elsif ($num =~ m/^(\d)(\d\d)$/) {
-		my ($hun,$end) = ($1,$2);
+		($hun,$end) = ($1,$2);
 		$hun = ($hun eq '1' && !$recur)? 'száz':"$dig{$hun}száz";
 		return $hun if ($end eq '00');
 		return $hun._int2hu($2 + 0);
@@ -53,7 +58,7 @@ sub _int2hu {
 		return 'ezer' if ($1 eq '000');
 		return 'ezer'._int2hu($1 + 0,1);
 	} elsif ($num =~ m/^(\d{1,3})((?:000){1,2})$/) {
-		my ($pre,$end) = ($1,(length($2) == 3)? $desc[1]:$desc[2]);
+		($pre,$end) = ($1,(length($2) == 3)? $desc[1]:$desc[2]);
 		return _int2hu($pre + 0).$end;
 	} else {
 		return _bigint2hu($num);
@@ -65,14 +70,15 @@ sub _bigint2hu {
 	my $num = $_[0];
 	my @parts;
 	my $count = 0;
+	my $part;
 	if ($num =~ m/001(\d{3})$/) {
 		$num =~ s/00(1\d{3})$//;
-		my $part = $1;
+		$part = $1;
 		unshift @parts, [ $part, $count ];
 		$count += 2;
 	}
 	while ($num =~ s/(\d{1,3})$//) {
-		my $part = $1 + 0;
+		$part = $1 + 0;
 		unshift @parts, [ $part, $count ] if ($part);
 		$count++;
 	}
@@ -136,12 +142,12 @@ version of the given number.
 
 =head1 LIMITATIONS
 
-The module cannot handle anything but positive integers smaller than 10**66
+The module cannot handle anything but integers smaller than 10**66
 at the moment.
 
 =head1 FUTURE PLANS
 
-Full integer, real number, exponential notation, num2hu_ordinal, fraction
+Real number, exponential notation, num2hu_ordinal, fraction
 support will be added in the next few releases. Patches welcome.
 
 The module aims to remain similar in structure to L<Lingua::EN::Numbers>,

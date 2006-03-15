@@ -1,6 +1,6 @@
 #!perl -T
 use Lingua::HU::Numbers qw/num2hu/;
-use Test::More tests => 12;
+use Test::More tests => 17;
 
 is (num2hu(0), "nulla");
 is (num2hu(12), "tizenkettõ");
@@ -15,3 +15,9 @@ is (num2hu(1000000),"egymillió");
 is (num2hu(1001000), "egymillió-ezer");
 is (num2hu('999000000000000000000000000000000000000000000000000000000000000'),
 	"kilencszázkilencvenkilenc decilliárd");
+
+is (num2hu('-1100'), "mínusz ezeregyszáz");
+is (num2hu('-21000'), "mínusz huszonegyezer");
+is (num2hu('+1111'), "ezeregyszáztizenegy");
+is (num2hu('+23000'), "huszonháromezer");
+is (num2hu('-0'), "nulla");

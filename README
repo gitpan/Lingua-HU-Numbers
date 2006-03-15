@@ -4,7 +4,7 @@ This Perl module is used for turning numbers into it's Hungarian text
 representation, for example "32" into "harminckettö".
 
 The module requires Perl 5.6.0 or newer and has no non-core module 
-dependencies.
+dependencies (although it depends on Test::More for make test).
 
 GRAMMAR
 
@@ -30,6 +30,7 @@ INSTALLATION
 
 To install this module, run the following commands:
 
+    cpansign -v         # optional; see SIGNATURE for details
     perl Makefile.PL
     make
     make test

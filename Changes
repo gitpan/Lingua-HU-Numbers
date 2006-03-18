@@ -1,5 +1,8 @@
 Revision history for Lingua-HU-Numbers
 
+0.03	2006-03-18
+	Added real number support.
+
 0.02	2006-03-15
 	Added negative integer support,
 	changed to using Module::Install and

@@ -14,28 +14,28 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 99f35e074b4b3b8feec6d97b279b752f975f4ae7 Changes
+SHA1 45025c78e650f730125525b9b676c57fbe32343e Changes
 SHA1 96192562772c2d164b65effa2bb47609166f8bbe MANIFEST
-SHA1 3ab93668eeddde501f5eeaf5c526cad1945272dc META.yml
+SHA1 f5ad52cbfd92014e1c6f9e39853ad70673d0ba44 META.yml
 SHA1 0b1393f01ddf2b804ba98881edc4b8bbc5477e86 Makefile.PL
 SHA1 08476bf25856fd2df721ac2fba0d7f352f9b8668 README
-SHA1 ec2e3f89726d91338c33adb8d9ab85889671546a inc/Module/Install.pm
-SHA1 6ef459d9db32305cf709f938ff72b5a526d11f58 inc/Module/Install/Base.pm
-SHA1 e524d42baa11997ca1fc9b48797e2df663fb1511 inc/Module/Install/Can.pm
-SHA1 1a6f1d0d2731525ba7c897352c989794ca5152b7 inc/Module/Install/Fetch.pm
-SHA1 2fd3502290372f63ea3c3c230ab4d0bffacc5740 inc/Module/Install/Makefile.pm
-SHA1 b3f60463cb90ba74f1db41598a49478257b1c1ff inc/Module/Install/Metadata.pm
-SHA1 542a6aa745e8b3649e4af07e913baaeb70611d90 inc/Module/Install/Win32.pm
-SHA1 1dd03ca2a5fe24536382d2636bde32a7fefac57e inc/Module/Install/WriteAll.pm
-SHA1 192de45cd560db088e2d54b9f8d6b1b0ca3edc5e lib/Lingua/HU/Numbers.pm
+SHA1 e7688055bf405375921ea837273d8bdc68803efb inc/Module/Install.pm
+SHA1 e5b3215acb96829f2142dcfce736c1b6484fbc08 inc/Module/Install/Base.pm
+SHA1 07c44e137098675ea35a5d537df1e4af098382d9 inc/Module/Install/Can.pm
+SHA1 8f691f8e451ba687551fa836e8d75c4d514241e5 inc/Module/Install/Fetch.pm
+SHA1 81b798c6ca71d1b665a470fb49d32105084ac389 inc/Module/Install/Makefile.pm
+SHA1 c8c9737da19baa15ffa7d9d5037913f64b592189 inc/Module/Install/Metadata.pm
+SHA1 b97304e2a5c405d950eeaa4afd09c6b5507571c3 inc/Module/Install/Win32.pm
+SHA1 73a588d58f7ad0a6a9ed0ea80c48fa12f234a02c inc/Module/Install/WriteAll.pm
+SHA1 e47a2bb7da808002b3296143f3e864f725edf8c4 lib/Lingua/HU/Numbers.pm
 SHA1 285480ad0063e77542c8766679164739a891ecd7 t/00-load.t
-SHA1 c04d5bad1c504b5e8a987bc82aa54553d416a46d t/01-basic.t
+SHA1 53964bda88f8cf5c833b26691f26cfe254b165ad t/01-basic.t
 SHA1 6da39b48ce64b584e4c3274bff96fc76ff484820 t/pod-coverage.t
 SHA1 0190346d7072d458c8a10a45c19f86db641dcc48 t/pod.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.2.2 (GNU/Linux)
 
-iD8DBQFEF7f0+22TSbOiiI8RAizaAJ9Eg0CAUhO7e2E2AuAxNqlusS/8kwCgi2Jx
-zey6+nU4ScuZzeOl/oluXGg=
-=eTuE
+iD8DBQFEG+Kr+22TSbOiiI8RAhEjAJ4z4/SMZ/c5dm9/u52Pr2Pk/iSa1wCgjqga
+vxwB234Rt1+cSTFf/rhqKwY=
+=FP3P
 -----END PGP SIGNATURE-----

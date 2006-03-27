@@ -1,5 +1,8 @@
 Revision history for Lingua-HU-Numbers
 
+0.04	2006-03-27
+	Added ordinal support.
+
 0.03	2006-03-18
 	Added real number support.
 

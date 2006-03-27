@@ -1,7 +1,8 @@
 #!perl -T
-use Lingua::HU::Numbers qw/num2hu/;
-use Test::More tests => 31;
+use Lingua::HU::Numbers qw/num2hu num2hu_ordinal/;
+use Test::More tests => 50;
 
+### num2hu
 ## integers [1-12]
 is (num2hu(0), "nulla");
 is (num2hu(12), "tizenkettõ");
@@ -45,3 +46,32 @@ ok (! eval("num2hu('0.')") && $@);
 ok (! eval("num2hu('0,')") && $@);
 ok (! eval("num2hu('text')") && $@);
 ok (! eval('$_="1" x 67;num2hu($_)') && $@);
+
+### num2hu_ordinal
+
+## integers [32-47]
+
+is (num2hu_ordinal(0), "nulladik");
+is (num2hu_ordinal(1), "elsõ");
+is (num2hu_ordinal(11), "tizenegyedik");
+is (num2hu_ordinal(25), "huszonötödik");
+is (num2hu_ordinal(38), "harmincnyolcadik");
+is (num2hu_ordinal(120), "százhuszadik");
+is (num2hu_ordinal(1000), "ezredik");
+is (num2hu_ordinal(1300), "ezerháromszázadik");
+is (num2hu_ordinal(2538), "kettõezer-ötszázharmincnyolcadik");
+is (num2hu_ordinal(26000), "huszonhatezredik");
+is (num2hu_ordinal(26438), "huszonhatezer-négyszázharmincnyolcadik");
+is (num2hu_ordinal(100000), "százezredik");
+is (num2hu_ordinal(10**6), "egymilliomodik");
+is (num2hu_ordinal(15345678),
+	"tizenötmillió-háromszáznegyvenötezer-hatszázhetvennyolcadik");
+is (num2hu_ordinal(199000000), "százkilencvenkilencmilliomodik");
+is (num2hu_ordinal(199000999),
+	"százkilencvenkilencmillió-kilencszázkilencvenkilencedik");
+
+## formatting [48-50]
+
+ok (! eval('num2hu_ordinal("text")') && $@);
+ok (! eval('num2hu_ordinal("0.0")') && $@);
+ok (! eval('$_="1" x 67;num2hu_ordinal($_)') && $@);

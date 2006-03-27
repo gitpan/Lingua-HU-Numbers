@@ -10,9 +10,9 @@ use Carp;
 require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = ();
-our @EXPORT_OK = qw( num2hu );
+our @EXPORT_OK = qw(num2hu num2hu_ordinal);
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 our %dig;
 
@@ -21,6 +21,13 @@ nyolc kilenc tíz tizenegy tizenkettõ tizenhárom tizennégy tizenöt tizenhat
 tizenhét tizennyolc tizenkilenc húsz huszonegy huszonkettõ huszonhárom
 huszonnégy huszonöt huszonhat huszonhét huszonnyolc huszonkilenc harminc
 negyven ötven hatvan hetven nyolcvan kilencven );
+
+our %ord;
+
+my @tenord = qw ( egyedik kettedik harmadik negyedik ötödik hatodik hetedik
+nyolcadik kilencedik);
+
+my %tenord; @tenord{ 1..9 } = @tenord;
 
 our @desc = ('',qw(ezer millió milliárd billió billiárd trillió trilliárd 
 	kvadrillió kvadrilliárd kvintillió kvintilliárd szextillió szextilliárd
@@ -32,15 +39,20 @@ our @frac = ('',qw( ezred milliomod milliárdod billiomod billiárdod
 	kvintilliárdod szextilliomod szextilliárdod szeptilliomod szeptilliárdod
 	oktilliomod oktilliárdod nonilliomod nonilliárdod decilliomod 
 	decilliárdod ));
+	
+@ord{ 0..10,11..19,20,21..29,30,40,50,60,70,80,90,10 } = (qw(nulladik elsõ 
+második), @tenord[2..8], 'tizedik',(map { "tizen$_" } @tenord), 'huszadik', 
+(map { "huszon$_" } @tenord), qw( harmincadik negyvenedik ötvenedik hatvanadik
+hetvenedik nyolcvanadik kilencvenedik századik));
 
 sub num2hu {
 	my $num = $_[0];
 	return $dig{'0'} if ($num =~ m/^[+-]0+$/s);
 	return undef unless defined $num && length $num;
-	croak("Number is not properly formatted!")
+	croak('Number is not properly formatted!')
 		if ($num !~ m/^[+-]?\d+(\.\d+)?$/s);
 	my ($int,$frac) = $num =~ m/^[+-]?(\d+)(?:\.(\d+))?$/;
-	croak("The number is too large, the module can't handle it!")
+	croak('The number is too large, the module can\'t handle it!')
 		if ($int && length($int) > 66 || $frac && length($frac) > 66);
 	my $plusmin = '';
 	$num =~ s/^([+-])/$plusmin = $1;''/es;
@@ -51,6 +63,17 @@ sub num2hu {
 	} else {
 		return $plusmin._int2hu($num);
 	}
+}
+
+sub num2hu_ordinal {
+	my $num = $_[0];
+	return undef unless defined $num && length($num);
+	croak('You need to specify a positive integer for this function!')
+		if ($num !~ m/^\d+$/s);
+	croak('The number is too large, the module can\'t handle it!')
+		if (length($num) > 66);
+	return $ord{'0'} if ($num =~ m/^0+$/s);
+	return _ord2hu($num);
 }
 
 sub _int2hu {
@@ -121,6 +144,28 @@ sub _frac2hu {
 
 
 }
+
+sub _ord2hu {
+	my $num = $_[0];
+	$num =~ s/^0+//;
+	return $ord{$num} if $ord{$num};
+	if ($num =~ m/^(\d)(\d)$/) {
+		return _int2hu($1.'0').$tenord{$2};
+	} elsif ($num =~ m/^(\d)(\d\d)$/) {
+		if ($2 eq '00') { return _int2hu($1.'00').'adik' }
+		else { return _int2hu($1.'00')._ord2hu($2); }
+	} elsif ($num =~ m/^(\d+?)((?:000)+)$/) {
+		if ($1 eq '1' && $2 eq '000') { return 'ezredik' } 
+		else { return _int2hu($1).$frac[(length($2) / 3)].'ik'; }
+	} elsif ($num =~ m/^1(\d\d\d)$/) {
+		return 'ezer'._ord2hu($1);
+	} elsif ($num =~ m/^(\d)(\d\d\d)$/) {
+		return _int2hu($1.'000').'-'._ord2hu($2);
+	} elsif ($num =~ m/^(\d+)(\d\d\d)$/) {
+		return _int2hu($1.'000').'-'._ord2hu($2);
+	}
+	
+}
 =head1 NAME
 
 Lingua::HU::Numbers - converts numbers into Hungarian language text form.
@@ -128,7 +173,7 @@ Lingua::HU::Numbers - converts numbers into Hungarian language text form.
 =head1 SYNOPSIS
 
 
-    use Lingua::HU::Numbers qw/num2hu/;
+    use Lingua::HU::Numbers qw/num2hu num2hu_ordinal/;
 
     my $number = "42";
     my $foo = num2hu($number);
@@ -143,7 +188,8 @@ prints
 Lingua::HU::Numbers is a module converting numbers (like "42") into their
 Hungarian language representation ("negyvenkettõ").
 
-Currently the only function that can be exported is C<num2hu>.
+The module provides two optionally exported functions that can be exported:
+C<num2hu> and C<num2hu_ordinal>.
 
 Please see the README file for details of Hungarian grammar.
 
@@ -153,10 +199,17 @@ Please see the README file for details of Hungarian grammar.
 
 =item * num2hu
 
-This function is the only available one at the moment.
 It takes a scalar value which currently must be a real number smaller
 than -+10**66. The return value is a scalar expressing the Hungarian text
 version of the given number.
+
+=cut
+
+=item * num2hu_ordinal
+
+This function takes a scalar value which must be a positive integer smaller
+than 10**66. The return value is a scalar expressing the Hungarian ordinal
+text form of the specified number.
 
 =cut
 
@@ -169,8 +222,8 @@ at the moment.
 
 =head1 FUTURE PLANS
 
-Exponential notation, num2hu_ordinal, fraction
-support will be added in the next few releases. Patches welcome.
+Exponential notation, fraction support will be added in the
+next few releases. Patches (and accompanying tests) are welcome.
 
 The module aims to remain similar in structure to L<Lingua::EN::Numbers>,
 so that those familiar with that module can use this one easily.
@@ -194,7 +247,8 @@ L<Lingua::Num2Word>
 
 =head1 ACKNOWLEDGEMENTS
 
-Sean M. Burke for writing Lingua::EN::Numbers, which this module is modelled from.
+Sean M. Burke for writing Lingua::EN::Numbers, which this module is modelled
+from.
 
 =head1 COPYRIGHT & LICENSE
 

@@ -1,5 +1,15 @@
 Revision history for Lingua-HU-Numbers
 
+0.05	2007-07-27
+	A simple example has been added and also Module::Install has been
+	upgraded to a version that complies with the 1.3 META.yml specification.
+	
+	The module is now encoded in and operates on UTF-8, listening to the 
+	demand of times.
+
+	A typo that caused 10 to be displayed as 100 in ordinal has been fixed and 
+	test case added.
+
 0.04	2006-03-27
 	Added ordinal support.
 

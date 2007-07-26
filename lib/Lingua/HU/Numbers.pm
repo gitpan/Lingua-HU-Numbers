@@ -12,53 +12,57 @@ our @ISA = qw(Exporter);
 our @EXPORT = ();
 our @EXPORT_OK = qw(num2hu num2hu_ordinal);
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
-our %dig;
+my %dig;
 
-@dig{ 0..30,40,50,60,70,80,90 } = qw( nulla egy kettı h·rom nÈgy ˆt hat hÈt
-nyolc kilenc tÌz tizenegy tizenkettı tizenh·rom tizennÈgy tizenˆt tizenhat
-tizenhÈt tizennyolc tizenkilenc h˙sz huszonegy huszonkettı huszonh·rom
-huszonnÈgy huszonˆt huszonhat huszonhÈt huszonnyolc huszonkilenc harminc
-negyven ˆtven hatvan hetven nyolcvan kilencven );
+@dig{ 0..30,40,50,60,70,80,90 } = qw( nulla egy kett≈ë h√°rom n√©gy √∂t hat h√©t
+nyolc kilenc t√≠z tizenegy tizenkett≈ë tizenh√°rom tizenn√©gy tizen√∂t tizenhat
+tizenh√©t tizennyolc tizenkilenc h√∫sz huszonegy huszonkett≈ë huszonh√°rom
+huszonn√©gy huszon√∂t huszonhat huszonh√©t huszonnyolc huszonkilenc harminc
+negyven √∂tven hatvan hetven nyolcvan kilencven );
 
-our %ord;
+my %ord;
 
-my @tenord = qw ( egyedik kettedik harmadik negyedik ˆtˆdik hatodik hetedik
+my @tenord = qw ( egyedik kettedik harmadik negyedik √∂t√∂dik hatodik hetedik
 nyolcadik kilencedik);
 
 my %tenord; @tenord{ 1..9 } = @tenord;
 
-our @desc = ('',qw(ezer milliÛ milli·rd billiÛ billi·rd trilliÛ trilli·rd 
-	kvadrilliÛ kvadrilli·rd kvintilliÛ kvintilli·rd szextilliÛ szextilli·rd
-	szeptilliÛ szeptilli·rd oktilliÛ oktilli·rd nonilliÛ nonilli·rd
-	decilliÛ decilli·rd));
+my $empty = q{};
+my $minus = q{-};
+my $space = q{ };
 
-our @frac = ('',qw( ezred milliomod milli·rdod billiomod billi·rdod
-	trilliomod trilli·rdod kvadrilliomod kvadrilli·rdod kvintilliomod
-	kvintilli·rdod szextilliomod szextilli·rdod szeptilliomod szeptilli·rdod
-	oktilliomod oktilli·rdod nonilliomod nonilli·rdod decilliomod 
-	decilli·rdod ));
+my @desc = ($empty,qw(ezer milli√≥ milli√°rd billi√≥ billi√°rd trilli√≥ trilli√°rd 
+kvadrilli√≥ kvadrilli√°rd kvintilli√≥ kvintilli√°rd szextilli√≥ szextilli√°rd
+szeptilli√≥ szeptilli√°rd oktilli√≥ oktilli√°rd nonilli√≥ nonilli√°rd
+decilli√≥ decilli√°rd));
+
+my @frac = ($empty,qw( ezred milliomod milli√°rdod billiomod billi√°rdod
+trilliomod trilli√°rdod kvadrilliomod kvadrilli√°rdod kvintilliomod
+kvintilli√°rdod szextilliomod szextilli√°rdod szeptilliomod szeptilli√°rdod
+oktilliomod oktilli√°rdod nonilliomod nonilli√°rdod decilliomod 
+decilli√°rdod ));
 	
-@ord{ 0..10,11..19,20,21..29,30,40,50,60,70,80,90,10 } = (qw(nulladik elsı 
-m·sodik), @tenord[2..8], 'tizedik',(map { "tizen$_" } @tenord), 'huszadik', 
-(map { "huszon$_" } @tenord), qw( harmincadik negyvenedik ˆtvenedik hatvanadik
-hetvenedik nyolcvanadik kilencvenedik sz·zadik));
+@ord{ 0..10,11..19,20,21..29,30,40,50,60,70,80,90,100 } = (qw(nulladik els≈ë 
+m√°sodik), @tenord[2..8], 'tizedik',(map { "tizen$_" } @tenord), 'huszadik', 
+(map { "huszon$_" } @tenord), qw( harmincadik negyvenedik √∂tvenedik hatvanadik
+hetvenedik nyolcvanadik kilencvenedik sz√°zadik));
 
 sub num2hu {
 	my $num = $_[0];
-	return $dig{'0'} if ($num =~ m/^[+-]0+$/s);
-	return undef unless defined $num && length $num;
+	return $dig{'0'} if ($num =~ m/^[+-]0+$/sx);
+	return unless defined $num && length $num;
 	croak('Number is not properly formatted!')
-		if ($num !~ m/^[+-]?\d+(\.\d+)?$/s);
-	my ($int,$frac) = $num =~ m/^[+-]?(\d+)(?:\.(\d+))?$/;
+		if ($num !~ m/^[+-]?\d+(\.\d+)?$/sx);
+	my ($int,$frac) = $num =~ m/^[+-]?(\d+)(?:\.(\d+))?$/x;
 	croak('The number is too large, the module can\'t handle it!')
 		if ($int && length($int) > 66 || $frac && length($frac) > 66);
-	my $plusmin = '';
-	$num =~ s/^([+-])/$plusmin = $1;''/es;
-	$plusmin = ($plusmin eq '-') ? 'mÌnusz ':'';
-	if ($num =~ m/(\d+)\.(\d+)/) {
-		if (_frac2hu($2)) { return $plusmin._int2hu($1).' egÈsz '._frac2hu($2)
+	my $plusmin = $empty;
+	$num =~ s/^([+-])/$plusmin = $1;$empty/esx;
+	$plusmin = ($plusmin eq $minus) ? 'm√≠nusz ':$empty;
+	if ($num =~ m/(\d+)\.(\d+)/x) {
+		if (_frac2hu($2)) { return $plusmin._int2hu($1).' eg√©sz '._frac2hu($2)
 		} else { return $plusmin._int2hu($1); }
 	} else {
 		return $plusmin._int2hu($num);
@@ -67,12 +71,12 @@ sub num2hu {
 
 sub num2hu_ordinal {
 	my $num = $_[0];
-	return undef unless defined $num && length($num);
+	return unless defined $num && length($num);
 	croak('You need to specify a positive integer for this function!')
-		if ($num !~ m/^\d+$/s);
+		if ($num !~ m/^\d+$/sx);
 	croak('The number is too large, the module can\'t handle it!')
 		if (length($num) > 66);
-	return $ord{'0'} if ($num =~ m/^0+$/s);
+	return $ord{'0'} if ($num =~ m/^0+$/sx);
 	return _ord2hu($num);
 }
 
@@ -81,17 +85,17 @@ sub _int2hu {
 	my $recur = $_[1];
 	return $dig{$num} if ($dig{$num});
 	my ($hun,$end,$pre);
-	if ($num =~ m/^(\d)(\d)$/) {
+	if ($num =~ m/^(\d)(\d)$/x) {
 		return $dig{$1.'0'} . $dig{$2}
-	} elsif ($num =~ m/^(\d)(\d\d)$/) {
+	} elsif ($num =~ m/^(\d)(\d\d)$/x) {
 		($hun,$end) = ($1,$2);
-		$hun = ($hun eq '1' && !$recur)? 'sz·z':"$dig{$hun}sz·z";
+		$hun = ($hun eq '1' && !$recur)? 'sz√°z':"$dig{$hun}sz√°z";
 		return $hun if ($end eq '00');
 		return $hun._int2hu($2 + 0);
-	} elsif ($num <= 2000 && $num =~ m/^1(\d\d\d)$/) {
+	} elsif ($num <= 2000 && $num =~ m/^1(\d\d\d)$/x) {
 		return 'ezer' if ($1 eq '000');
 		return 'ezer'._int2hu($1 + 0,1);
-	} elsif ($num =~ m/^(\d{1,3})((?:000){1,2})$/) {
+	} elsif ($num =~ m/^(\d{1,3})((?:000){1,2})$/x) {
 		($pre,$end) = ($1,(length($2) == 3)? $desc[1]:$desc[2]);
 		return _int2hu($pre + 0).$end;
 	} else {
@@ -105,13 +109,13 @@ sub _bigint2hu {
 	my @parts;
 	my $count = 0;
 	my $part;
-	if ($num =~ m/001(\d{3})$/) {
-		$num =~ s/00(1\d{3})$//;
+	if ($num =~ m/001(\d{3})$/x) {
+		$num =~ s/00(1\d{3})$//x;
 		$part = $1;
 		unshift @parts, [ $part, $count ];
 		$count += 2;
 	}
-	while ($num =~ s/(\d{1,3})$//) {
+	while ($num =~ s/(\d{1,3})$//x) {
 		$part = $1 + 0;
 		unshift @parts, [ $part, $count ] if ($part);
 		$count++;
@@ -119,27 +123,27 @@ sub _bigint2hu {
 	my @out;
 	for (0..$#parts) {
 		push @out, _int2hu($parts[$_]->[0],$_).
-		(($parts[$_]->[1] > 8)? ' ':'').
+		(($parts[$_]->[1] > 8)? $space:$empty).
 		$desc[$parts[$_]->[1]];
 	}
-	return join('-',@out);
+	return join($minus,@out);
 	
 }
 
 sub _frac2hu {
 	my $num = $_[0];
-	$num =~ s/0+$//;
+	$num =~ s/0+$//x;
 	my $place = length($num);
-	$num =~ s/^0+//;
-	return undef if ($num eq '');
+	$num =~ s/^0+//x;
+	return if ($num eq $empty);
 	if ($place < 3) { 
-		$place = ($place == 1) ? 'tized':'sz·zad';
-		return _int2hu($num).' '.$place;
+		$place = ($place == 1) ? 'tized':'sz√°zad';
+		return _int2hu($num).$space.$place;
 	} else {
-		my $rest = '';
+		my $rest = $empty;
 		$rest = _int2hu('1'.('0' x ($place % 3))) if ($place % 3);
 		$place = int( $place / 3 );
-		return _int2hu($num).' '.$rest.$frac[$place];
+		return _int2hu($num).$space.$rest.$frac[$place];
 	}
 
 
@@ -147,28 +151,28 @@ sub _frac2hu {
 
 sub _ord2hu {
 	my $num = $_[0];
-	$num =~ s/^0+//;
+	$num =~ s/^0+//x;
 	return $ord{$num} if $ord{$num};
-	if ($num =~ m/^(\d)(\d)$/) {
+	if ($num =~ m/^(\d)(\d)$/x) {
 		return _int2hu($1.'0').$tenord{$2};
-	} elsif ($num =~ m/^(\d)(\d\d)$/) {
+	} elsif ($num =~ m/^(\d)(\d\d)$/x) {
 		if ($2 eq '00') { return _int2hu($1.'00').'adik' }
 		else { return _int2hu($1.'00')._ord2hu($2); }
-	} elsif ($num =~ m/^(\d+?)((?:000)+)$/) {
+	} elsif ($num =~ m/^(\d+?)((?:000)+)$/x) {
 		if ($1 eq '1' && $2 eq '000') { return 'ezredik' } 
 		else { return _int2hu($1).$frac[(length($2) / 3)].'ik'; }
-	} elsif ($num =~ m/^1(\d\d\d)$/) {
+	} elsif ($num =~ m/^1(\d\d\d)$/x) {
 		return 'ezer'._ord2hu($1);
-	} elsif ($num =~ m/^(\d)(\d\d\d)$/) {
-		return _int2hu($1.'000').'-'._ord2hu($2);
-	} elsif ($num =~ m/^(\d+)(\d\d\d)$/) {
-		return _int2hu($1.'000').'-'._ord2hu($2);
+	} elsif ($num =~ m/^(\d+)(\d\d\d)$/x) {
+		return _int2hu($1.'000').$minus._ord2hu($2);
 	}
 	
 }
+1;
+__END__
 =head1 NAME
 
-Lingua::HU::Numbers - converts numbers into Hungarian language text form.
+Lingua::HU::Numbers - converts numbers into Hungarian language text form
 
 =head1 SYNOPSIS
 
@@ -181,12 +185,12 @@ Lingua::HU::Numbers - converts numbers into Hungarian language text form.
 
 prints
 
-    negyvenkettı
+    negyvenkett≈ë
 
 =head1 DESCRIPTION
 
 Lingua::HU::Numbers is a module converting numbers (like "42") into their
-Hungarian language representation ("negyvenkettı").
+Hungarian language representation ("negyvenkett≈ë").
 
 The module provides two optionally exported functions that can be exported:
 C<num2hu> and C<num2hu_ordinal>.
@@ -230,7 +234,7 @@ so that those familiar with that module can use this one easily.
 
 =head1 AUTHOR
 
-B·lint Szilakszi, C<< <szbalint at cpan.org> >>
+B√°lint Szilakszi, C<< <szbalint at cpan.org> >>
 
 =head1 BUGS
 
@@ -250,13 +254,11 @@ L<Lingua::Num2Word>
 Sean M. Burke for writing Lingua::EN::Numbers, which this module is modelled
 from.
 
-=head1 COPYRIGHT & LICENSE
+=head1 LICENSE
 
-Copyright 2006 B·lint Szilakszi, all rights reserved.
+Copyright 2006, 2007 B√°lint Szilakszi.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
 =cut
-
-1;

@@ -1,44 +1,44 @@
-#!perl -T
+#!/usr/bin/perl -T
 use Lingua::HU::Numbers qw/num2hu num2hu_ordinal/;
-use Test::More tests => 50;
+use Test::More tests => 52;
 
 ### num2hu
 ## integers [1-12]
 is (num2hu(0), "nulla");
-is (num2hu(12), "tizenkettõ");
-is (num2hu(100), "száz");
+is (num2hu(12), "tizenkettÅ‘");
+is (num2hu(100), "szÃ¡z");
 is (num2hu(1000), "ezer");
-is (num2hu(1999), "ezerkilencszázkilencvenkilenc");
-is (num2hu(2001), "kettõezer-egy");
-is (num2hu(2110), "kettõezer-egyszáztíz");
-is (num2hu(5000), "ötezer");
-is (num2hu(123000),"százhuszonháromezer");
-is (num2hu(1000000),"egymillió");
-is (num2hu(1001000), "egymillió-ezer");
+is (num2hu(1999), "ezerkilencszÃ¡zkilencvenkilenc");
+is (num2hu(2001), "kettÅ‘ezer-egy");
+is (num2hu(2110), "kettÅ‘ezer-egyszÃ¡ztÃ­z");
+is (num2hu(5000), "Ã¶tezer");
+is (num2hu(123000),"szÃ¡zhuszonhÃ¡romezer");
+is (num2hu(1000000),"egymilliÃ³");
+is (num2hu(1001000), "egymilliÃ³-ezer");
 is (num2hu('999000000000000000000000000000000000000000000000000000000000000'),
-	"kilencszázkilencvenkilenc decillió");
+	"kilencszÃ¡zkilencvenkilenc decilliÃ³");
 
 ## -+ signs [13-18]
-is (num2hu('-1100'), "mínusz ezeregyszáz");
-is (num2hu('-21000'), "mínusz huszonegyezer");
-is (num2hu('+1111'), "ezeregyszáztizenegy");
-is (num2hu('+23000'), "huszonháromezer");
+is (num2hu('-1100'), "mÃ­nusz ezeregyszÃ¡z");
+is (num2hu('-21000'), "mÃ­nusz huszonegyezer");
+is (num2hu('+1111'), "ezeregyszÃ¡ztizenegy");
+is (num2hu('+23000'), "huszonhÃ¡romezer");
 is (num2hu('-0'), "nulla");
 is (num2hu('+0'), "nulla");
 
 ## real numbers [19-25]
 
-is (num2hu('1.5'), "egy egész öt tized");
-is (num2hu('2001.2005'), "kettõezer-egy egész kettõezer-öt tízezred");
-is (num2hu('11.10'), "tizenegy egész egy tized");
-is (num2hu('20.101'), "húsz egész százegy ezred");
-is (num2hu('120.000'), "százhúsz");
-is (num2hu('99.010'), "kilencvenkilenc egész egy század");
-is (num2hu('0.0101'), "nulla egész százegy tízezred");
+is (num2hu('1.5'), "egy egÃ©sz Ã¶t tized");
+is (num2hu('2001.2005'), "kettÅ‘ezer-egy egÃ©sz kettÅ‘ezer-Ã¶t tÃ­zezred");
+is (num2hu('11.10'), "tizenegy egÃ©sz egy tized");
+is (num2hu('20.101'), "hÃºsz egÃ©sz szÃ¡zegy ezred");
+is (num2hu('120.000'), "szÃ¡zhÃºsz");
+is (num2hu('99.010'), "kilencvenkilenc egÃ©sz egy szÃ¡zad");
+is (num2hu('0.0101'), "nulla egÃ©sz szÃ¡zegy tÃ­zezred");
 
 ## combined cases [26-27]
 is (num2hu('+0.0'), "nulla");
-is (num2hu('-0.010'),"mínusz nulla egész egy század");
+is (num2hu('-0.010'),"mÃ­nusz nulla egÃ©sz egy szÃ¡zad");
 
 ## formatting errors [28-31]
 
@@ -52,25 +52,27 @@ ok (! eval('$_="1" x 67;num2hu($_)') && $@);
 ## integers [32-47]
 
 is (num2hu_ordinal(0), "nulladik");
-is (num2hu_ordinal(1), "elsõ");
+is (num2hu_ordinal(1), "elsÅ‘");
+is (num2hu_ordinal(10),"tizedik");
+is (num2hu_ordinal(100),"szÃ¡zadik");
 is (num2hu_ordinal(11), "tizenegyedik");
-is (num2hu_ordinal(25), "huszonötödik");
+is (num2hu_ordinal(25), "huszonÃ¶tÃ¶dik");
 is (num2hu_ordinal(38), "harmincnyolcadik");
-is (num2hu_ordinal(120), "százhuszadik");
+is (num2hu_ordinal(120), "szÃ¡zhuszadik");
 is (num2hu_ordinal(1000), "ezredik");
-is (num2hu_ordinal(1300), "ezerháromszázadik");
-is (num2hu_ordinal(2538), "kettõezer-ötszázharmincnyolcadik");
+is (num2hu_ordinal(1300), "ezerhÃ¡romszÃ¡zadik");
+is (num2hu_ordinal(2538), "kettÅ‘ezer-Ã¶tszÃ¡zharmincnyolcadik");
 is (num2hu_ordinal(26000), "huszonhatezredik");
-is (num2hu_ordinal(26438), "huszonhatezer-négyszázharmincnyolcadik");
-is (num2hu_ordinal(100000), "százezredik");
+is (num2hu_ordinal(26438), "huszonhatezer-nÃ©gyszÃ¡zharmincnyolcadik");
+is (num2hu_ordinal(100000), "szÃ¡zezredik");
 is (num2hu_ordinal(10**6), "egymilliomodik");
 is (num2hu_ordinal(15345678),
-	"tizenötmillió-háromszáznegyvenötezer-hatszázhetvennyolcadik");
-is (num2hu_ordinal(199000000), "százkilencvenkilencmilliomodik");
+	"tizenÃ¶tmilliÃ³-hÃ¡romszÃ¡znegyvenÃ¶tezer-hatszÃ¡zhetvennyolcadik");
+is (num2hu_ordinal(199000000), "szÃ¡zkilencvenkilencmilliomodik");
 is (num2hu_ordinal(199000999),
-	"százkilencvenkilencmillió-kilencszázkilencvenkilencedik");
+	"szÃ¡zkilencvenkilencmilliÃ³-kilencszÃ¡zkilencvenkilencedik");
 
-## formatting [48-50]
+## formatting [50-52]
 
 ok (! eval('num2hu_ordinal("text")') && $@);
 ok (! eval('num2hu_ordinal("0.0")') && $@);

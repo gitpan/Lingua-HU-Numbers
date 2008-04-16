@@ -13,7 +13,7 @@ our @ISA = qw(Exporter);
 our @EXPORT = ();
 our @EXPORT_OK = qw(num2hu num2hu_ordinal);
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 my %dig;
 

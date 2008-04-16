@@ -14,29 +14,31 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 0d88e63a774e5c68220a15c5a4d2c6b800bbb6cd Changes
-SHA1 40d42a61add85a16cd276a030058422a2597c2e4 MANIFEST
-SHA1 cea36d8fd641757d65de337e435bdc03cf7d7928 META.yml
+SHA1 f2d32871bf37eecfd96a67101e7bdf3e65af55fd Changes
+SHA1 f11692fc652e231edd2a23a60c72d9be8a840e0c LICENSE
+SHA1 6abab6feddc2eca41f997dc05e509f5cb6a6dd33 MANIFEST
+SHA1 4e10a6a2eb2f9bb1e108a3e8810fcf3514f993ae META.yml
 SHA1 d5755abd91354ca1cfacc399c856f31bb49ed81f Makefile.PL
 SHA1 9a4c060ea308e83e087dabfbe43617cf68e2f0b6 README
-SHA1 dadedfa3f2f223ac942207b4a46a84d66e7623fd examples/simple_usage.pl
-SHA1 78edb89a439463e44c33a72bbee84c54d0dc8aaf inc/Module/Install.pm
-SHA1 8ea4e37df83fd0c1c050be5c8da75545c3828d9b inc/Module/Install/Base.pm
-SHA1 1da6031583c32f0d1ec073b8376102fc51427dcc inc/Module/Install/Can.pm
-SHA1 b779375b90c16af2f31f38a1dd2b5df223c7f2fb inc/Module/Install/Fetch.pm
-SHA1 2054450e1e9c1dd8056362bf4a64ae70d5d71476 inc/Module/Install/Makefile.pm
-SHA1 5d6189b2cad15cf9932a28faafd55130c8247e83 inc/Module/Install/Metadata.pm
-SHA1 02af973fae2ac3531fa6b704574b2b8cb2a08148 inc/Module/Install/Win32.pm
-SHA1 3a2eab96e91cca8d99938cda7791759ae9d97b3a inc/Module/Install/WriteAll.pm
-SHA1 c56e435deb2612a54380c331ce30689971929944 lib/Lingua/HU/Numbers.pm
+SHA1 003190dea3795172fb92a105666bac6078bf1f4c examples/simple_usage.pl
+SHA1 d8f6d2df4e75cb9e6e77a8377457f0ececd00e31 inc/Module/Install.pm
+SHA1 03590cde5c3de0d0d8a84d2b96917ed1a2cf9a30 inc/Module/Install/Base.pm
+SHA1 8ef3c70e905be7d1007b446f21d4eb3ff6ae24cb inc/Module/Install/Can.pm
+SHA1 79054604a1cd4e99443b05cbb62832568a204a33 inc/Module/Install/Fetch.pm
+SHA1 dfa433f2f41d990946f1b3d68a29299539f2dea6 inc/Module/Install/Makefile.pm
+SHA1 72cab336b6be5716aae0a1cb6d9add6c98a7a1f5 inc/Module/Install/Metadata.pm
+SHA1 35a62725a7eade0fa617ef2ba4cf2f4d4a69a3fe inc/Module/Install/Win32.pm
+SHA1 19dcc6d1e9f02c56d3f6d184642f4cd68aa371e6 inc/Module/Install/WriteAll.pm
+SHA1 b7f00922bb1e2098bd26bc07da98f83458faa10a lib/Lingua/HU/Numbers.pm
 SHA1 285480ad0063e77542c8766679164739a891ecd7 t/00-load.t
-SHA1 fda3f1ba2ee567f60765d97e6a9c4848c57424cd t/01-basic.t
+SHA1 27e77c05c41a63a286cbc750916dd45a3818ae3f t/01-basic.t
+SHA1 2924361d0713031b92c6b888f11e860d357837f7 t/meta.t
 SHA1 6da39b48ce64b584e4c3274bff96fc76ff484820 t/pod-coverage.t
 SHA1 0190346d7072d458c8a10a45c19f86db641dcc48 t/pod.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.6 (GNU/Linux)
 
-iD8DBQFGqSzs+22TSbOiiI8RAnkOAKCIvGrDYoOPWBM8yiFm1Ol0HF9HvQCdGVOq
-sQ6F6kDX0sXjUmQlUgzHoNs=
-=vlIM
+iD8DBQFIBbum+22TSbOiiI8RAr+nAJ0YqaOBSAGSmn7C4kxv+Yfq6ExpzACeNm2N
+zhWY2Y1roZkmQkb61VIpe70=
+=iW+r
 -----END PGP SIGNATURE-----

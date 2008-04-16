@@ -9,6 +9,7 @@ inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Lingua/HU/Numbers.pm
+LICENSE
 Makefile.PL
 MANIFEST
 META.yml
@@ -16,5 +17,6 @@ README
 SIGNATURE
 t/00-load.t
 t/01-basic.t
+t/meta.t
 t/pod-coverage.t
 t/pod.t

@@ -1,18 +1,19 @@
 package Lingua::HU::Numbers;
 
-use 5.6.0;
+use 5.006;
 
 use warnings;
 use strict;
 
 use Carp;
+use utf8;
 
 require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = ();
 our @EXPORT_OK = qw(num2hu num2hu_ordinal);
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 my %dig;
 
@@ -256,7 +257,7 @@ from.
 
 =head1 LICENSE
 
-Copyright 2006, 2007 Bálint Szilakszi.
+Copyright 2006-2008 Bálint Szilakszi.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

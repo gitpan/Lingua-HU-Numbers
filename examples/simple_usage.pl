@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use utf8;
 
 use Lingua::HU::Numbers qw/num2hu num2hu_ordinal/;
 

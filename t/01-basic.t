@@ -1,6 +1,7 @@
 #!/usr/bin/perl -T
 use Lingua::HU::Numbers qw/num2hu num2hu_ordinal/;
 use Test::More tests => 52;
+use utf8;
 
 ### num2hu
 ## integers [1-12]
